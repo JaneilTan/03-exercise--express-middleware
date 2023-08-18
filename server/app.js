@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const swaggerUi = require("swagger-ui-express");
 // TODO: Import the error handler middleware
+const errorHandlerMiddleware = require("./errorHandlerMiddleware");
 
 const swaggerDocument = yaml.load(
   fs.readFileSync(path.join(__dirname, "./apispec.yaml"), "utf8")
@@ -33,6 +34,7 @@ app.post("/api/todos", async (req, res, next) => {
   } catch (err) {
     console.error(err.message);
     // TODO: Call the next middleware in the stack
+    next(err)
   }
 });
 
@@ -45,6 +47,7 @@ app.get("/api/todos", async (req, res, next) => {
   } catch (err) {
     console.error(err.message);
     // TODO: Call the next middleware in the stack
+    next(err)
   }
 });
 
@@ -60,6 +63,7 @@ app.get("/api/todos/:id", async (req, res, next) => {
   } catch (err) {
     console.error(err.message);
     // TODO: Call the next middleware in the stack
+    next(err)
   }
 });
 
@@ -77,6 +81,7 @@ app.put("/api/todos/:id", async (req, res, next) => {
   } catch (err) {
     console.error(err.message);
     // TODO: Call the next middleware in the stack
+    next(err)
   }
 });
 
@@ -92,10 +97,11 @@ app.delete("/api/todos/:id", async (req, res, next) => {
   } catch (err) {
     console.error(err.message);
     // TODO: Call the next middleware in the stack
+    next(err)
   }
 });
 
 // error handling middleware
 // TODO: Use the error handler middleware
-
+app.use(errorHandlerMiddleware)
 module.exports = app;
